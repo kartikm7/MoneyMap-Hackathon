@@ -8,6 +8,8 @@ const { getFirestore, collection, addDoc, serverTimestamp, query, where, getDocs
 const serviceAccount = require('./serviceAccountKey.json');
 const ejs = require('ejs')
 const session = require('express-session');
+const path = require('path');
+
 
 
 // const cors = require('cors');
@@ -15,7 +17,16 @@ const session = require('express-session');
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+
+// Use the following code to get the __filename and __dirname equivalents in CommonJS
+// const __filename = path.resolve();
+// const __dirname = path.dirname(__filename);
+
+app.use(express.static(path.join(__dirname, 'public')))
+
+
 app.set('view engine','ejs')
+
 app.use(session({
   secret: 'your-secret-key',
   resave: false,
