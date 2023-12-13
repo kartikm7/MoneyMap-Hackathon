@@ -98,8 +98,8 @@ app.post('/signup', async (req, res) => {
     };
 
     const newUserDocRef = await addDoc(usersCollectionRef, newUser);
-
-    res.json({ message: 'Signup successful!', user: userCredential.user });
+    res.redirect('/login')
+    // res.json({ message: 'Signup successful!', user: userCredential.user });
   } catch (error) {
     console.error('Signup failed', error);
     res.status(400).json({ message: 'Signup failed', error: error.message });
@@ -143,6 +143,9 @@ app.get('/user', async (req, res) => {
   }
 });
 
+app.get('/register', (req,res)=>{
+  res.render('register.ejs')
+})
 
 // Route to add an expense
 app.post('/add-expense', async (req, res) => {
@@ -228,7 +231,7 @@ app.get('/expenses', async (req, res) => {
 app.post('/logout', async (req, res) => {
   req.session.destroy()
   await signOut(auth);
-  res.json({ message: 'Logout successful' });
+  res.redirect('/');
 });
 
 app.listen(3000, () => console.log('Server listening on port 3000'));
