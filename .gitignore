@@ -130,6 +130,6 @@ dist
 # firebase files
 firebase.json
 .firebaserc
-serviceAccountKey.json
+# serviceAccountKey.json
 
 dumb.txt
