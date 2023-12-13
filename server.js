@@ -56,6 +56,10 @@ app.get('/', (req,res)=>{
   res.render("index.ejs")
 })
 
+app.get('/signIn', (req,res)=>{
+  res.render('login.ejs')
+})
+
 app.post('/login', async (req, res) => {
   // const { email, password } = await req.body;
   const email = req.body.email
@@ -98,7 +102,7 @@ app.post('/signup', async (req, res) => {
     };
 
     const newUserDocRef = await addDoc(usersCollectionRef, newUser);
-    res.redirect('/login')
+    res.redirect('/signIn')
     // res.json({ message: 'Signup successful!', user: userCredential.user });
   } catch (error) {
     console.error('Signup failed', error);
