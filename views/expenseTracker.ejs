@@ -1,0 +1,144 @@
+<!-- dashboard.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Expense Tracker</title>
+</head>
+
+<body>
+  <h2>Expense Tracker</h2>
+
+  <!-- Expense Form -->
+  <form id="expenseForm" action="/add-expense" method="POST">
+    <label for="amount">Amount:</label>
+    <input type="number" id="amount" name="amount" required>
+
+    <label for="category">Category:</label>
+    <input type="text" id="category" name="category" required>
+
+    <label for="description">Description:</label>
+    <input type="text" id="description" name="description" required>
+
+    <label for="title">Title:</label>
+    <input type="text" id="title" name="title" required>
+
+    <label for="date">Date:</label>
+    <input type="date" id="date" name="date" required>
+
+    <!-- Include the user_id in a hidden input field -->
+    <input type="hidden" name="user_id" value="<%= locals.user %>">
+
+    <button type="submit">Add Expense</button>
+  </form>
+
+<!-- Display Existing Expenses -->
+<h3>Your Expenses</h3>
+
+<% if (expenses.length > 0) { %>
+    <ul>
+        <% 
+            // Initialize variables for savings, expenditure, and net value
+            let totalSavings = 0;
+            let totalExpenditure = 0;
+
+            expenses.forEach(expense => {
+                // Calculate the total savings, expenditure, and net value
+                if (expense.amount > 0) {
+                    totalSavings += expense.amount;
+                } else {
+                    totalExpenditure += Math.abs(expense.amount);
+                }
+        %>
+            <li>
+                <strong>Amount:</strong> <%= expense.amount %><br>
+                <strong>Category:</strong> <%= expense.category %><br>
+                <strong>Description:</strong> <%= expense.description %><br>
+                <strong>Title:</strong> <%= expense.title %><br>
+                <strong>Date:</strong> <%= expense.date %><br>
+
+                <!-- Add delete button with a form for each expense -->
+                <form class="deleteExpenseForm" data-expense-id="<%= expense.id %>">
+                    <button type="button" onclick="deleteExpense(this)">Delete Expense</button>
+                </form>
+            </li>
+        <% }); %>
+    </ul>
+
+    <!-- Display total savings, total expenditure, and net value -->
+    <p>Total Savings: <%= totalSavings %></p>
+    <p>Total Expenditure: <%= totalExpenditure %></p>
+    <p>Net Value (Savings - Expenditure): <%= totalSavings - totalExpenditure %></p>
+<% } else { %>
+    <p>No expenses found.</p>
+<% } %>
+
+<!-- Logout Form -->
+<form id="logoutForm" action="/logout" method="POST">
+    <button type="submit">Logout</button>
+</form>
+        <script>
+          // Function to handle expense deletion on the client side
+          async function deleteExpense(button) {
+            const expenseId = button.parentElement.dataset.expenseId;
+
+            try {
+              const response = await fetch('/delete-expense', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ expense_id: expenseId }),
+              });
+
+              if (response.ok) {
+                // Remove the deleted expense from the DOM
+                button.parentElement.parentElement.remove();
+                console.log('Expense deleted successfully!');
+              } else {
+                console.error('Failed to delete expense', await response.json());
+              }
+            } catch (error) {
+              console.error('Failed to delete expense', error);
+            }
+          }
+        </script>
+
+        <script>
+          // Function to handle form submission and page reload
+          document.getElementById('expenseForm').addEventListener('submit', async function (event) {
+            event.preventDefault();
+
+            // Disable the form during the submission process
+            this.querySelector('button[type="submit"]').disabled = true;
+
+            try {
+              // Submit the form
+              await fetch('/add-expense', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                  amount: this.amount.value,
+                  category: this.category.value,
+                  description: this.description.value,
+                  title: this.title.value,
+                  date: this.date.value,
+                  user_id: this.user_id.value
+                }),
+              });
+
+              // Reload the page after a successful submission
+              location.reload();
+            } catch (error) {
+              console.error('Failed to add expense', error);
+
+              // Enable the form in case of an error
+              this.querySelector('button[type="submit"]').disabled = false;
+            }
+          });
+        </script>

@@ -1,0 +1,31 @@
+
+
+CodeBackup:
+
+signup route:
+
+// Signup route
+// app.post('/signup', async (req, res) => {
+//   const user = {
+//     email: req.body.email,
+//     password: req.body.password
+//   }
+//   try {
+//     const userCredential = await createUserWithEmailAndPassword(auth, user.email, user.password);
+//     const usersCollectionRef = collection(db, 'users');
+//     const { uid, metadata: { creationTime } } = userCredential.user;
+
+//     const newUser = {
+//       created_at: new Date(creationTime).toISOString(),
+//       email: user.email, // Use user.email instead of just email
+//       uid: uid,
+//     };
+
+//     const newUserDocRef = await addDoc(usersCollectionRef, newUser);
+
+//     res.json({ message: 'Signup successful!', user: userCredential.user });
+//   } catch (error) {
+//     console.error('Signup failed', error);
+//     res.status(400).json({ message: 'Signup failed', error: error.message });
+//   }
+// });

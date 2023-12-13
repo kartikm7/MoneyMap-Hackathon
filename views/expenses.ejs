@@ -1,0 +1,29 @@
+<!-- expenses.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Expenses</title>
+</head>
+<body>
+    <h2>User Expenses</h2>
+    
+    <% if (expenses.length > 0) { %>
+      <ul>
+        <% expenses.forEach(expense => { %>
+          <li>
+            <strong>Amount:</strong> <%= expense.amount %><br>
+            <strong>Category:</strong> <%= expense.category %><br>
+            <strong>Description:</strong> <%= expense.description %><br>
+            <strong>Title:</strong> <%= expense.title %><br>
+            <strong>Date:</strong> <%= expense.date %><br>
+          </li>
+        <% }); %>
+      </ul>
+    <% } else { %>
+      <p>No expenses found.</p>
+    <% } %>
+</body>
+</html>
