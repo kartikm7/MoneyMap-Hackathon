@@ -16,6 +16,27 @@
         <div class="pageContainer">
             <div class="leftSection">
                 <div class="leftNav">
+                    <form id="Homepage" action="/" method="POST">
+                        <button class="navbutton" type="submit">
+                            Homepage
+                        </button>
+                    </form>
+                    <form
+                        id="expenseTrackerForm"
+                        action="/expenseTracker"
+                        method="POST">
+                        <button class="navbutton" type="submit">
+                            Expense Tracker
+                        </button>
+                    </form>
+                    <form
+                        id="reminderSectionForm"
+                        action="/reminders"
+                        method="POST">
+                        <button class="navbutton" type="submit">
+                            Reminder
+                        </button>
+                    </form>
                     <!-- Logout Form -->
                     <form id="logoutForm" action="/logout" method="POST">
                         <button type="submit">Logout</button>
