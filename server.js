@@ -9,6 +9,9 @@ const serviceAccount = require('./serviceAccountKey.json');
 const ejs = require('ejs')
 const session = require('express-session');
 const path = require('path');
+const axios = require('axios')
+const nodemailer = require('nodemailer');
+const cron = require('node-cron');
 
 
 
@@ -227,6 +230,95 @@ app.get('/expenses', async (req, res) => {
   } catch (error) {
     console.error('Failed to fetch expenses', error);
     res.status(500).json({ message: 'Failed to fetch expenses', error: error.message });
+  }
+});
+
+app.post('/magic', async (req,res)=>{
+const prompt = req.body.prompt;
+const apiUrl = 'http://127.0.0.1:11434/api/generate';
+
+const requestData = {
+  "model": "finance",
+  "prompt": prompt,
+  "stream": false
+};
+
+axios.post(apiUrl, requestData)
+  .then(response => {
+    res.json({message: "Ai is generating!", response: response.data.response})
+    console.log(response.data);
+  })
+  .catch(error => {
+    console.error(error);
+    res.status(500).json({ message: 'Ai not reached :/', error: error.message })
+  });
+
+})
+
+
+// Route to render the Bills page
+app.get('/bills', async (req, res) => {
+  try {
+    const uid = req.session.uid;
+
+    if (!uid) {
+      console.error('User ID is undefined');
+      return res.redirect('/');
+    }
+
+    const remindersCollectionRef = collection(db, 'reminders');
+    const userRemindersQuery = query(remindersCollectionRef, where('user_id', '==', uid));
+
+    const remindersSnapshot = await getDocs(userRemindersQuery);
+    const reminders = remindersSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+
+    res.render('bills.ejs', { uid: uid, reminders: reminders });
+  } catch (error) {
+    console.error('Failed to fetch reminders', error);
+    res.status(500).json({ message: 'Failed to fetch reminders', error: error.message });
+  }
+});
+
+// Route to add a reminder (which may represent a bill)
+app.post('/add-reminder', async (req, res) => {
+  const { amount, date, service, name } = req.body;
+  const uid = req.session.uid;
+
+  try {
+    const remindersCollectionRef = collection(db, 'reminders');
+
+    const newReminder = {
+      amount: Number(amount),
+      date: new Date(date),
+      service,
+      name,
+      user_id: uid,
+      created_at: serverTimestamp(),
+    };
+
+    const newReminderDocRef = await addDoc(remindersCollectionRef, newReminder);
+
+    res.redirect('/bills');
+  } catch (error) {
+    console.error('Failed to add reminder', error);
+    res.status(500).json({ message: 'Failed to add reminder', error: error.message });
+  }
+});
+
+// Route to delete a reminder
+app.post('/delete-reminder', async (req, res) => {
+  const reminderId = req.body.reminderId;
+
+  try {
+    const remindersCollectionRef = collection(db, 'reminders');
+    const reminderDocRef = doc(remindersCollectionRef, reminderId);
+
+    await deleteDoc(reminderDocRef);
+
+    res.redirect('/bills');
+  } catch (error) {
+    console.error('Failed to delete reminder', error);
+    res.status(500).json({ message: 'Failed to delete reminder', error: error.message });
   }
 });
 
