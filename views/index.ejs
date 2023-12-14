@@ -1,11 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    
-</body>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Homepage</title>
+        <link rel="stylesheet" href="/styles/index.css" />
+        <link
+            href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@600&family=Montserrat&display=swap"
+            rel="stylesheet" />
+    </head>
+    <body>
+        <div class="pageContainer">
+            <div class="left">
+                <img
+                    src="/assets/flying-money.png"
+                    height="20%"
+                    alt="flying-money" />
+                <h1>MoneyMap</h1>
+                <div class="buttonContainer">
+                    <form id="Login" action="/signIn" method="GET">
+                        <button class="navbutton" type="submit">Login</button>
+                    </form>
+                    <form id="Register" action="/register" method="GET">
+                        <button class="navbutton" type="submit">
+                            Register
+                        </button>
+                    </form>
+                </div>
+            </div>
+            <div class="right">
+                <img
+                    src="/assets/landingpage.png"
+                    alt="landingpage"
+                    height="100%" />
+            </div>
+        </div>
+    </body>
 </html>
