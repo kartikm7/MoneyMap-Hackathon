@@ -14,6 +14,16 @@ tracking daily expenditures or setting up weekly
 reminders, MoneyMap is your go-to financial
 companion.
 
-## How to configure?
+# How to configure?
 
-For most functionality:
+## For most functionality:
+- run npm i in the project directories terminal to install all required dependencies
+- setup a firebase project, along with the service account and generate the serviceAccountKey.json and save to the ./ main directory
+- also, make three collections (users, reminders, expenses). Rest documents and respective fields will be managed by the server.
+- to start the project on localhost:3000 (Note: port can be changed through the server.js), run npm start (custom script to run the website in development mode using nodemon)
+
+## For additional funcitionality like AI Advice:
+- install ollama (Available for Linux, Mac OS)
+- incase you have windows, you can use WSL(Windows Subsystem for Linux) and install it there
+- install llama using the ollama run llama2 cli command
+- for further, more indepth instructions do check out the Ollama Docs ( https://github.com/jmorganca/ollama/ )
