@@ -1,0 +1,172 @@
+body {
+    font-family: "League Spartan", sans-serif;
+    font-family: "Montserrat", sans-serif;
+    background-color: #1f1f1f;
+    color: Black;
+    margin: 0;
+    height: 100vh;
+}
+.leftSection {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 15%;
+    height: 100vh;
+}
+.leftNav {
+    background-color: #3d3d3d;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 90%;
+    height: 95vh;
+    border-radius: 40px;
+}
+.rightSection {
+    margin-left: 1vw;
+    margin-right: 1vw;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    height: 100vh;
+    width: 80%;
+    background-color: #1f1f1f;
+}
+.rightHalf1 {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    height: 100vh;
+    width: 50%;
+    background-color: #1f1f1f;
+}
+.rightExpense {
+    margin-top: 20px;
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    height: 75vh;
+    width: 95%;
+    border-radius: 40px;
+    background-color: white;
+    margin: 20px;
+}
+.rightHalf2 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-wrap: wrap;
+    height: 100vh;
+    width: 50%;
+    background-color: #1f1f1f;
+}
+.rightBlob {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    border-radius: 40px;
+    height: 75vh;
+    width: 95%;
+    background-color: #ffe66f;
+    margin: 20px;
+}
+.pageContainer {
+    display: flex;
+    background-color: #1f1f1f;
+    flex-direction: row;
+    width: 100%;
+    height: 100vh;
+    margin: none;
+}
+#expenseForm {
+    margin-right: 2vw;
+    position: fixed;
+    bottom: 0;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    background-color: #3d3d3d;
+    padding: 20px;
+    border-radius: 40px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    color: white;
+    width: 80%;
+    height: 10%;
+    justify-content: center;
+    align-items: center;
+}
+#expenseForm button {
+    width: 15%;
+    background-color: #ffe66f;
+    color: black;
+    padding: 5px;
+    border: none;
+    border-radius: 40px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+#expenseForm input {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+#expenseForm input {
+    border-radius: 40px;
+    height: 3vh;
+}
+#logoutForm {
+    width: 100%;
+    max-width: 300px;
+    height: 60px;
+    position: fixed;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+#logoutForm button {
+    width: 30%;
+    margin-right: 0.5vw;
+    margin-bottom: 20px;
+    background-color: #ffe66f;
+    color: black;
+    padding: 5px;
+    border: none;
+    border-radius: 40px;
+    cursor: pointer;
+    font-size: 16px;
+}
+#logoutForm button:hover,
+#expenseForm button:hover {
+    background-color: #ffed95;
+    transform: scale(1.05);
+}
+
+.calcContainer {
+    position: absolute;
+    bottom: 0;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+.yourExpenses {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 35vh;
+    width: 90%;
+    overflow: scroll;
+}
+.yourExpenses button {
+    background-color: #ffe66f;
+    border: none;
+    border-radius: 40px;
+}
