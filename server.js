@@ -4,7 +4,7 @@ const { initializeApp } = require('firebase/app');
 const { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } = require('firebase/auth');
 const admin = require('firebase-admin');
 // const { getFirestore, collection, addDoc, serverTimestamp, query, where, getDocs, FieldValue } = require('firebase/firestore');
-const { getFirestore, collection, addDoc, serverTimestamp, query, where, getDocs, deleteDoc, doc } = require('firebase/firestore');
+const { getFirestore, collection, addDoc, serverTimestamp, query, where, getDocs, deleteDoc, doc, getDoc  } = require('firebase/firestore');
 const serviceAccount = require('./serviceAccountKey.json');
 const ejs = require('ejs')
 const session = require('express-session');
@@ -12,6 +12,7 @@ const path = require('path');
 const axios = require('axios')
 const nodemailer = require('nodemailer');
 const cron = require('node-cron');
+const { log } = require('console');
 
 
 
@@ -70,7 +71,8 @@ app.post('/login', async (req, res) => {
   try {
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
     const loggedInUser = userCredential.user;
-    console.log(userCredential.user.uid)
+    console.log(userCredential.user.email)
+    req.session.email = loggedInUser.email
     req.session.uid = loggedInUser.uid
     // res.json({ message: 'Login successful!', user: loggedInUser });
     res.redirect(`/expenseTracker`);
@@ -255,33 +257,34 @@ axios.post(apiUrl, requestData)
 
 })
 
-
-// Route to render the Bills page
-app.get('/bills', async (req, res) => {
+// Route to fetch reminders
+app.get('/reminders', async (req, res) => {
+  const uid = req.session.uid;
+  if (!uid) {
+      console.error({ message: "Session ID not available" })
+      res.redirect('/')
+  }
   try {
-    const uid = req.session.uid;
+      const remindersCollectionRef = collection(db, 'reminders');
 
-    if (!uid) {
-      console.error('User ID is undefined');
-      return res.redirect('/');
-    }
+      // Query reminders for the specific user
+      const userRemindersQuery = query(remindersCollectionRef, where('user_id', '==', uid));
 
-    const remindersCollectionRef = collection(db, 'reminders');
-    const userRemindersQuery = query(remindersCollectionRef, where('user_id', '==', uid));
+      const querySnapshot = await getDocs(userRemindersQuery);
 
-    const remindersSnapshot = await getDocs(userRemindersQuery);
-    const reminders = remindersSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      // Map the query results to an array
+      const reminders = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 
-    res.render('bills.ejs', { uid: uid, reminders: reminders });
+      res.render('reminders.ejs', { reminders });
   } catch (error) {
-    console.error('Failed to fetch reminders', error);
-    res.status(500).json({ message: 'Failed to fetch reminders', error: error.message });
+      console.error('Failed to fetch reminders', error);
+      res.status(500).json({ message: 'Failed to fetch reminders', error: error.message });
   }
 });
 
-// Route to add a reminder (which may represent a bill)
+// Route to add a reminder
 app.post('/add-reminder', async (req, res) => {
-  const { amount, date, service, name } = req.body;
+  const { amount, name, service, date } = req.body;
   const uid = req.session.uid;
 
   try {
@@ -289,16 +292,16 @@ app.post('/add-reminder', async (req, res) => {
 
     const newReminder = {
       amount: Number(amount),
-      date: new Date(date),
-      service,
       name,
+      service,
+      date: new Date(date),
       user_id: uid,
       created_at: serverTimestamp(),
     };
 
     const newReminderDocRef = await addDoc(remindersCollectionRef, newReminder);
 
-    res.redirect('/bills');
+    res.redirect('/reminders');
   } catch (error) {
     console.error('Failed to add reminder', error);
     res.status(500).json({ message: 'Failed to add reminder', error: error.message });
@@ -312,22 +315,85 @@ app.post('/delete-reminder', async (req, res) => {
   try {
     const remindersCollectionRef = collection(db, 'reminders');
     const reminderDocRef = doc(remindersCollectionRef, reminderId);
-
     await deleteDoc(reminderDocRef);
 
-    res.redirect('/bills');
+    res.json({ success: true, deletedReminderId: reminderId });
   } catch (error) {
     console.error('Failed to delete reminder', error);
-    res.status(500).json({ message: 'Failed to delete reminder', error: error.message });
+    res.status(500).json({ success: false, error: error.message });
   }
 });
 
+// Route to set up a weekly email reminder using cron and nodemailer for all reminders
+app.post('/set-weekly-reminder', async (req, res) => {
+  const uid = req.session.uid;
 
-// Logout route
-app.post('/logout', async (req, res) => {
-  req.session.destroy()
-  await signOut(auth);
-  res.redirect('/');
+  try {
+      // Fetch the user's email address from your database (assuming you store it)
+      const userDocRef = doc(collection(db, 'users'), uid);
+      const userDoc = await getDoc(userDocRef);
+      const userEmail = req.session.email; // Adjust this based on your actual data structure
+
+      // Fetch all reminders for the specific user
+      const remindersCollectionRef = collection(db, 'reminders');
+      const userRemindersQuery = query(remindersCollectionRef, where('user_id', '==', uid));
+      const querySnapshot = await getDocs(userRemindersQuery);
+
+      // Map the query results to an array with formatted dates
+      const reminders = querySnapshot.docs.map(doc => {
+          const data = doc.data();
+          return { id: doc.id, ...data };
+      });
+
+      // Set up a cron job to send an email every Sunday at 9 AM
+      cron.schedule('0 9 * * 0', async () => {
+          // Create a nodemailer transporter (configure it based on your email provider)
+          const transporter = nodemailer.createTransport({
+              service: 'gmail',
+              auth: {
+                  user: 'moneymapai@gmail.com', // Adjust with your email
+                  pass: 'moneyMap123', // Adjust with your email password
+              },
+          });
+
+          // Email content
+          const mailOptions = {
+              from: 'moneymapai@gmail.com',
+              to: userEmail,
+              subject: 'Weekly Reminder',
+              html: generateReminderEmailContent(reminders),
+          };
+
+          // Send the email
+          await transporter.sendMail(mailOptions);
+      });
+
+      res.json({ success: true });
+  } catch (error) {
+      console.error('Failed to set up weekly reminder', error);
+      res.status(500).json({ success: false, error: error.message });
+  }
 });
 
+// Function to generate the HTML content for the reminder email
+function generateReminderEmailContent(reminders) {
+  // Customize this function based on your email content needs
+  let content = '<h1>Your Weekly Reminders</h1>';
+  reminders.forEach(reminder => {
+      content += `<p><strong>Name:</strong> ${reminder.name}</p>`;
+      content += `<p><strong>Amount:</strong> ${reminder.amount}</p>`;
+      content += `<p><strong>Date:</strong> ${reminder.date}</p>`;
+      content += `<p><strong>Service:</strong> ${reminder.service}</p>`;
+      content += '<hr>';
+  });
+
+  return content;
+}
+
 app.listen(3000, () => console.log('Server listening on port 3000'));
+
+
+function formatDate(timestamp) {
+  const date = new Date(timestamp.seconds * 1000); // Convert seconds to milliseconds
+  return date.toLocaleDateString(); // Adjust the formatting as needed
+}
