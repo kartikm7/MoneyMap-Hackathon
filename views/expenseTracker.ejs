@@ -79,7 +79,23 @@
                     </div>
                 </div>
                 <div class="rightHalf2">
-                    <div class="rightBlob"></div>
+                    <div class="rightBlob">
+                        <p>Powered by llama2@meta</p>
+                        <div class="aiTerminal">
+                            <p></p>
+                        </div>
+                        <div class="qContainer">
+                            <form id="enterQuery" action="/magic" method="POST">
+                                <input
+                                    type="text"
+                                    id="prompt"
+                                    name="prompt"
+                                    placeholder="Enter Your Query"
+                                    required />
+                                <button type="submit">Enter</button>
+                            </form>
+                        </div>
+                    </div>
                 </div>
                 <!-- Expense Form -->
                 <form id="expenseForm" action="/add-expense" method="POST">

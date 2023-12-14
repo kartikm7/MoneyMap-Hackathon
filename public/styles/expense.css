@@ -42,13 +42,16 @@ body {
     width: 50%;
     background-color: #1f1f1f;
 }
+h2 {
+    margin-top: 5vh;
+    margin-bottom: 0;
+}
 .rightExpense {
     margin-top: 20px;
     display: flex;
     position: relative;
     flex-direction: column;
     flex-wrap: wrap;
-    justify-content: center;
     align-items: center;
     height: 75vh;
     width: 95%;
@@ -67,6 +70,7 @@ body {
 }
 .rightBlob {
     display: flex;
+    position: relative;
     flex-direction: column;
     flex-wrap: wrap;
     border-radius: 40px;
@@ -74,6 +78,51 @@ body {
     width: 95%;
     background-color: #ffe66f;
     margin: 20px;
+}
+.qContainer {
+    height: 12vh;
+    position: absolute;
+    bottom: 0;
+    border-radius: 40px;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+.aiTerminal {
+    margin: 0 auto;
+    padding: 20px;
+    width: 400px;
+    height: 300px;
+    word-break: break-all;
+    white-space: normal;
+    overflow-y: scroll;
+    border-radius: 40px;
+}
+.rightBlob p {
+    margin-left: auto;
+    margin-right: 2vw;
+    position: relative;
+    color: #3d3d3d;
+    font-weight: 500;
+}
+#enterQuery {
+    margin-left: 2vw;
+    width: 100%;
+}
+#enterQuery input {
+    height: 80%;
+    width: 65%;
+    border-radius: 40px;
+    overflow: scroll;
+}
+#enterQuery button {
+    text-align: center;
+    width: 25%;
+    height: 80%;
+    border-radius: 40px;
+    background-color: #1f1f1f;
+    color: white;
 }
 .pageContainer {
     display: flex;
@@ -161,7 +210,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    height: 35vh;
+    height: 45vh;
     width: 90%;
     overflow: scroll;
 }
