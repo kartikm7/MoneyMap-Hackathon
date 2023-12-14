@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us</title>
+    <link rel="stylesheet" href="/styles/aboutus.css">
+</head>
+<body>
+    <div class="pageContainer">
+        <div class="leftSection">
+            <div class="leftNav">
+                <form id="Homepage" action="/" method="GET">
+                    <button class="navbutton" type="submit">
+                        Homepage
+                    </button>
+                </form>
+                <form id="expenseTrackerForm" action="/expenseTracker" method="GET">
+                    <button class="navbutton" type="submit">
+                        Expense Tracker
+                    </button>
+                </form>
+                <form id="reminderSectionForm" action="/reminders" method="GET">
+                    <button class="navbutton" type="submit">
+                        Reminder
+                    </button>
+                </form>
+                <form id="aboutUsSectionForm" action="/aboutus" method="GET">
+                    <button class="navbutton" type="submit">
+                        About Us
+                    </button>
+                </form>
+                <!-- Logout Form -->
+                <form id="logoutForm" action="/logout" method="POST">
+                    <button type="submit">Logout</button>
+                </form>
+            </div>
+        </div>
+        <div class="rightSection">
+            <div class="about">
+                <h1>About Us</h1>
+                <p>MoneyMap is a user-friendly web application dedicated to simplifying financial management. Our platform offers a robust expense tracker, enabling users to monitor their spending habits with ease. The intuitive dashboard presents categorized expenses, while the reminders feature ensures timely payment and task management. Users can effortlessly add, view, and delete expenses, fostering a proactive approach to financial well-being. Additionally, our AI advice section provides personalized insights based on user queries. With a sleek and organized design, MoneyMap prioritizes user experience and efficiency. Whether you're tracking daily expenditures or setting up weekly reminders, MoneyMap is your go-to financial companion.
+                </p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

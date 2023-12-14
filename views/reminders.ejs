@@ -6,46 +6,87 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Your Reminders</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="/styles/reminders.css">
 </head>
 <body>
 
-<div id="reminders-app">
-    <h1>Your Reminders</h1>
+<div id="reminders-app" class="pageContainer">
+    <div class="leftSection">
+        <div class="leftNav">
+            <form id="Homepage" action="/" method="GET">
+                <button class="navbutton" type="submit">
+                    Homepage
+                </button>
+            </form>
+            <form id="expenseTrackerForm" action="/expenseTracker" method="GET">
+                <button class="navbutton" type="submit">
+                    Expense Tracker
+                </button>
+            </form>
+            <form id="reminderSectionForm" action="/reminders" method="GET">
+                <button class="navbutton" type="submit">
+                    Reminder
+                </button>
+            </form>
+            <form id="aboutUsSectionForm" action="/aboutus" method="GET">
+                <button class="navbutton" type="submit">
+                    About Us
+                </button>
+            </form>
+            <!-- Logout Form -->
+            <form id="logoutForm" action="/logout" method="POST">
+                <button type="submit">Logout</button>
+            </form>
+        </div>
+    </div>
+    <div class="rightSection">
+        <h1>Your Reminders</h1>
+        <div id="reminderList">
+            <ul id="remindersList">
+                <% for (const reminder of reminders) { %>
+                    <li>
+                        <span><strong>Name:</strong> <%= reminder.name %></span>
+                        <span><strong>Amount:</strong> <%= reminder.amount %></span>
+                        <span><strong>Date:</strong> <%= reminder.date %></span>
+                        <span><strong>Service:</strong> <%= reminder.service %></span>
+                    </li>
+                <% } %>
+            </ul>
+        </div>
+        <div id="reminderAdd">
+            <div>
+                <form id="addReminderForm" method="post" action="/add-reminder">
+                    <label for="amount">Amount:</label>
+                    <input type="number" name="amount" id="amount" required>
+                
+                    <label for="date">Date:</label>
+                    <input type="date" name="date" id="date" required>
 
-    <!-- Form for adding a new reminder -->
-    <form id="addReminderForm" method="post" action="/add-reminder">
-        <label for="amount">Amount:</label>
-        <input type="number" name="amount" id="amount" required>
+                    <label for="name">Name:</label>
+                    <input type="text" name="name" id="name" required>
+                
+                    <label for="service">Service:</label>
+                    <input type="text" name="service" id="service" required>
 
-        <label for="date">Date:</label>
-        <input type="date" name="date" id="date" required>
+                
+                    <button type="submit">Add Reminder</button>
+                </form> 
+            </div>
+            <button id="setupWeeklyReminder">Set Up Weekly Reminder</button>
+        </div>
 
-        <label for="service">Service:</label>
-        <input type="text" name="service" id="service" required>
-
-        <label for="name">Name:</label>
-        <input type="text" name="name" id="name" required>
-
-        <button type="submit">Add Reminder</button>
-    </form>
+    </div>
 
     <!-- Button to set up a weekly email reminder -->
-    <button id="setupWeeklyReminder">Set Up Weekly Reminder</button>
+
+
 
     <!-- List to display existing reminders -->
-    <ul id="remindersList">
-        <% for (const reminder of reminders) { %>
-            <li>
-                <span><strong>Name:</strong> <%= reminder.name %></span>
-                <span><strong>Amount:</strong> <%= reminder.amount %></span>
-                <span><strong>Date:</strong> <%= reminder.date %></span>
-                <span><strong>Service:</strong> <%= reminder.service %></span>
-            </li>
-        <% } %>
-    </ul>
 
 </div>
+
+
+
 
 <script>
     function formatDate(timestamp) {

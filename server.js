@@ -375,6 +375,10 @@ app.post('/set-weekly-reminder', async (req, res) => {
   }
 });
 
+app.get('/aboutus', (rqe,res)=>{
+  res.render('aboutus.ejs')
+})
+
 // Function to generate the HTML content for the reminder email
 function generateReminderEmailContent(reminders) {
   // Customize this function based on your email content needs
@@ -389,6 +393,15 @@ function generateReminderEmailContent(reminders) {
 
   return content;
 }
+
+
+// Logout route
+app.post('/logout', async (req, res) => {
+  req.session.destroy()
+  await signOut(auth);
+  res.redirect('/');
+});
+
 
 app.listen(3000, () => console.log('Server listening on port 3000'));
 
