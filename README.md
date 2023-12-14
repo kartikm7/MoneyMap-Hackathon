@@ -13,3 +13,7 @@ user experience and efficiency. Whether you're
 tracking daily expenditures or setting up weekly
 reminders, MoneyMap is your go-to financial
 companion.
+
+## How to configure?
+
+For most functionality:
