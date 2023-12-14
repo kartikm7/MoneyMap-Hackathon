@@ -2,214 +2,226 @@
 
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Expense Tracker</title>
-        <link rel="stylesheet" href="/styles/expense.css" />
-        <link
-            href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@600&family=Montserrat&display=swap"
-            rel="stylesheet" />
-    </head>
 
-    <body>
-        <div class="pageContainer">
-            <div class="leftSection">
-                <div class="leftNav">
-                    <form id="Homepage" action="/" method="POST">
-                        <button class="navbutton" type="submit">
-                            Homepage
-                        </button>
-                    </form>
-                    <form
-                        id="expenseTrackerForm"
-                        action="/expenseTracker"
-                        method="POST">
-                        <button class="navbutton" type="submit">
-                            Expense Tracker
-                        </button>
-                    </form>
-                    <form
-                        id="reminderSectionForm"
-                        action="/reminders"
-                        method="POST">
-                        <button class="navbutton" type="submit">
-                            Reminder
-                        </button>
-                    </form>
-                    <!-- Logout Form -->
-                    <form id="logoutForm" action="/logout" method="POST">
-                        <button type="submit">Logout</button>
-                    </form>
-                </div>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Expense Tracker</title>
+    <link rel="stylesheet" href="/styles/expense.css" />
+    <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@600&family=Montserrat&display=swap"
+        rel="stylesheet" />
+</head>
+
+<body>
+    <div class="pageContainer">
+        <div class="leftSection">
+            <div class="leftNav">
+                <form id="Homepage" action="/" method="GET">
+                    <button class="navbutton" type="submit">
+                        Homepage
+                    </button>
+                </form>
+                <form id="expenseTrackerForm" action="/expenseTracker" method="GET">
+                    <button class="navbutton" type="submit">
+                        Expense Tracker
+                    </button>
+                </form>
+                <form id="reminderSectionForm" action="/reminders" method="GET">
+                    <button class="navbutton" type="submit">
+                        Reminder
+                    </button>
+                </form>
+                <!-- Logout Form -->
+                <form id="logoutForm" action="/logout" method="POST">
+                    <button type="submit">Logout</button>
+                </form>
             </div>
-            <div class="rightSection">
-                <div class="rightHalf1">
-                    <div class="rightExpense">
-                        <h2>Expense Tracker</h2>
-                        <!-- Display Existing Expenses -->
-                        <h3>Your Expenses</h3>
-                        <div class="yourExpenses">
-                            <% if (expenses.length > 0) { %>
+        </div>
+        <div class="rightSection">
+            <div class="rightHalf1">
+                <div class="rightExpense">
+                    <h2>Expense Tracker</h2>
+                    <!-- Display Existing Expenses -->
+                    <h3>Your Expenses</h3>
+                    <div class="yourExpenses">
+                        <% if (expenses.length> 0) { %>
                             <ul>
-                                <% let totalReceived = 0; let totalExpenditure =
-                                0; expenses.forEach(expense => { if
-                                (expense.amount > 0) { totalReceived +=
-                                expense.amount; } else { totalExpenditure +=
-                                Math.abs(expense.amount); } %>
-                                <li>
-                                    <strong>Amount:</strong> <%= expense.amount
-                                    %><br />
-                                    <strong>Category:</strong> <%=
-                                    expense.category %><br />
-                                    <strong>Description:</strong> <%=
-                                    expense.description %><br />
-                                    <strong>Title:</strong> <%= expense.title
-                                    %><br />
-                                    <strong>Date:</strong> <%= expense.date
-                                    %><br />
+                                <% let totalReceived=0; let totalExpenditure=0; expenses.forEach(expense=> { if
+                                    (expense.amount > 0) { totalReceived +=
+                                    expense.amount; } else { totalExpenditure +=
+                                    Math.abs(expense.amount); } %>
+                                    <li>
+                                        <strong>Amount:</strong>
+                                        <%= expense.amount %><br />
+                                            <strong>Category:</strong>
+                                            <%= expense.category %><br />
+                                                <strong>Description:</strong>
+                                                <%= expense.description %><br />
+                                                    <strong>Title:</strong>
+                                                    <%= expense.title %><br />
+                                                        <strong>Date:</strong>
+                                                        <%= expense.date %><br />
 
-                                    <form
-                                        class="deleteExpenseForm"
-                                        data-expense-id="<%= expense.id %>">
-                                        <button
-                                            type="button"
-                                            onclick="deleteExpense(this)">
-                                            Delete Expense
-                                        </button>
-                                    </form>
-                                </li>
-                                <% }); %>
+                                                            <form class="deleteExpenseForm"
+                                                                data-expense-id="<%= expense.id %>">
+                                                                <button type="button" onclick="deleteExpense(this)">
+                                                                    Delete Expense
+                                                                </button>
+                                                            </form>
+                                    </li>
+                                    <% }); %>
                             </ul>
+                    </div>
+                    <!-- Display total received, total expenditure, and savings -->
+                    <div class="calcContainer">
+                        <div>
+                            <p>Total Received: <%= totalReceived %>
+                            </p>
+                            <p>
+                                Savings (Total Received - Total
+                                Expenditure): <%= totalReceived - totalExpenditure %>
+                            </p>
                         </div>
-                        <!-- Display total received, total expenditure, and savings -->
-                        <div class="calcContainer">
-                            <div>
-                                <p>Total Received: <%= totalReceived %></p>
-                                <p>
-                                    Savings (Total Received - Total
-                                    Expenditure): <%= totalReceived -
-                                    totalExpenditure %>
-                                </p>
-                            </div>
-                            <p>Total Expenditure: <%= totalExpenditure %></p>
-                        </div>
-                        <% } else { %>
+                        <p>Total Expenditure: <%= totalExpenditure %>
+                        </p>
+                    </div>
+                    <% } else { %>
                         <p>No expenses found.</p>
                         <% } %>
+                </div>
+            </div>
+            <div class="rightHalf2">
+                <div class="rightBlob">
+                    <p>Powered by llama2@meta</p>
+                    <div class="aiTerminal">
+                        <p id="aiAdvice">
+                            <%= locals.aiAdvice %>
+                        </p>
+                    </div>
+                    <div class="qContainer">
+                        <form id="enterQuery" action="/magic" method="POST">
+                            <input type="text" id="prompt" name="prompt" placeholder="Enter Your Query" required />
+                            <button type="submit">Enter</button>
+                        </form>
                     </div>
                 </div>
-                <div class="rightHalf2">
-                    <div class="rightBlob">
-                        <p>Powered by llama2@meta</p>
-                        <div class="aiTerminal">
-                            <p></p>
-                        </div>
-                        <div class="qContainer">
-                            <form id="enterQuery" action="/magic" method="POST">
-                                <input
-                                    type="text"
-                                    id="prompt"
-                                    name="prompt"
-                                    placeholder="Enter Your Query"
-                                    required />
-                                <button type="submit">Enter</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-                <!-- Expense Form -->
-                <form id="expenseForm" action="/add-expense" method="POST">
-                    <label for="amount">Amount:</label>
-                    <input type="number" id="amount" name="amount" required />
+            </div>
+            <!-- Expense Form -->
+            <form id="expenseForm" action="/add-expense" method="POST">
+                <label for="amount">Amount:</label>
+                <input type="number" id="amount" name="amount" required />
 
-                    <label for="category">Category:</label>
-                    <input type="text" id="category" name="category" required />
+                <label for="category">Category:</label>
+                <input type="text" id="category" name="category" required />
 
-                    <label for="description">Description:</label>
-                    <input
-                        type="text"
-                        id="description"
-                        name="description"
-                        required />
+                <label for="description">Description:</label>
+                <input type="text" id="description" name="description" required />
 
-                    <label for="title">Title:</label>
-                    <input type="text" id="title" name="title" required />
+                <label for="title">Title:</label>
+                <input type="text" id="title" name="title" required />
 
-                    <label for="date">Date:</label>
-                    <input type="date" id="date" name="date" required />
+                <label for="date">Date:</label>
+                <input type="date" id="date" name="date" required />
 
-                    <!-- Include the user_id in a hidden input field -->
-                    <input
-                        type="hidden"
-                        name="user_id"
-                        value="<%= locals.user %>" />
-                    <button type="submit">Add Expense</button>
-                </form>
-                <script>
-                    async function deleteExpense(button) {
-                        const expenseId =
-                            button.parentElement.dataset.expenseId;
+                <!-- Include the user_id in a hidden input field -->
+                <input type="hidden" name="user_id" value="<%= locals.user %>" />
+                <button type="submit">Add Expense</button>
+            </form>
+            <script>
+                async function deleteExpense(button) {
+                    const expenseId =
+                        button.parentElement.dataset.expenseId;
+
+                    try {
+                        const response = await fetch("/delete-expense", {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json",
+                            },
+                            body: JSON.stringify({ expense_id: expenseId }),
+                        });
+
+                        if (response.ok) {
+                            // Remove the deleted expense from the DOM
+                            button.parentElement.parentElement.remove();
+                            console.log("Expense deleted successfully!");
+                        } else {
+                            console.error(
+                                "Failed to delete expense",
+                                await response.json()
+                            );
+                        }
+                    } catch (error) {
+                        console.error("Failed to delete expense", error);
+                    }
+                }
+            </script>
+
+            <script>
+                document
+                    .getElementById("expenseForm")
+                    .addEventListener("submit", async function (event) {
+                        event.preventDefault();
+                        this.querySelector(
+                            'button[type="submit"]'
+                        ).disabled = true;
 
                         try {
-                            const response = await fetch("/delete-expense", {
+                            await fetch("/add-expense", {
                                 method: "POST",
                                 headers: {
                                     "Content-Type": "application/json",
                                 },
-                                body: JSON.stringify({ expense_id: expenseId }),
+                                body: JSON.stringify({
+                                    amount: this.amount.value,
+                                    category: this.category.value,
+                                    description: this.description.value,
+                                    title: this.title.value,
+                                    date: this.date.value,
+                                    user_id: this.user_id.value,
+                                }),
                             });
-
-                            if (response.ok) {
-                                // Remove the deleted expense from the DOM
-                                button.parentElement.parentElement.remove();
-                                console.log("Expense deleted successfully!");
-                            } else {
-                                console.error(
-                                    "Failed to delete expense",
-                                    await response.json()
-                                );
-                            }
+                            location.reload();
                         } catch (error) {
-                            console.error("Failed to delete expense", error);
-                        }
-                    }
-                </script>
-
-                <script>
-                    document
-                        .getElementById("expenseForm")
-                        .addEventListener("submit", async function (event) {
-                            event.preventDefault();
+                            console.error("Failed to add expense", error);
                             this.querySelector(
                                 'button[type="submit"]'
-                            ).disabled = true;
+                            ).disabled = false;
+                        }
+                    });
+            </script>
 
-                            try {
-                                await fetch("/add-expense", {
-                                    method: "POST",
-                                    headers: {
-                                        "Content-Type": "application/json",
-                                    },
-                                    body: JSON.stringify({
-                                        amount: this.amount.value,
-                                        category: this.category.value,
-                                        description: this.description.value,
-                                        title: this.title.value,
-                                        date: this.date.value,
-                                        user_id: this.user_id.value,
-                                    }),
-                                });
-                                location.reload();
-                            } catch (error) {
-                                console.error("Failed to add expense", error);
-                                this.querySelector(
-                                    'button[type="submit"]'
-                                ).disabled = false;
-                            }
+            <script>
+                document.getElementById("enterQuery").addEventListener("submit", async function (event) {
+                    event.preventDefault(); // Prevent the default form submission
+
+                    const promptValue = document.getElementById("prompt").value;
+
+                    try {
+                        const response = await fetch("/magic", {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json",
+                            },
+                            body: JSON.stringify({
+                                prompt: promptValue,
+                            }),
                         });
-                </script>
-            </div>
+
+                        const responseData = await response.json();
+
+                        // Update the #aiAdvice element with the AI advice
+                        document.getElementById("aiAdvice").innerText = responseData.aiAdvice;
+
+                        console.log("AI advice received successfully!");
+                    } catch (error) {
+                        console.error("Failed to get AI advice", error);
+                    }
+                });
+            </script>
+
         </div>
-    </body>
+    </div>
+</body>
+
 </html>

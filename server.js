@@ -247,7 +247,7 @@ const requestData = {
 
 axios.post(apiUrl, requestData)
   .then(response => {
-    res.json({message: "Ai is generating!", response: response.data.response})
+    res.json({message: "Ai is generating!", aiAdvice: response.data.response})
     console.log(response.data);
   })
   .catch(error => {
