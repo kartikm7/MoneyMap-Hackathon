@@ -47,12 +47,12 @@ body {
     background-color: #1f1f1f;
 }
 
-h1{
+h1 {
     text-align: center;
     color: aliceblue;
 }
 
-#reminderList{
+#reminderList {
     justify-content: center;
     justify-self: center;
     background-color: #ffe66f;
@@ -62,7 +62,7 @@ h1{
     height: 75vh;
 }
 
-#reminderAdd{
+#reminderAdd {
     margin-right: 2vw;
     /* position: fixed; */
     bottom: 0;
@@ -103,7 +103,6 @@ h1{
     height: 3vh;
 }
 
-
 .leftNav form {
     display: flex;
     flex-direction: column;
@@ -111,6 +110,9 @@ h1{
     width: 100%;
 }
 .navbutton {
+    background-color: #1f1f1f;
+    border: none;
+    color: white;
     width: 80%;
     height: 10vh;
     border-radius: 40px;
@@ -145,4 +147,16 @@ h1{
 #expenseForm button:hover {
     background-color: #ffed95;
     transform: scale(1.05);
+}
+.navbutton.active {
+    background-color: #ffe66f;
+    color: black;
+}
+.navbutton:hover {
+    transition: 0.2s ease-in;
+    background-color: #757575;
+}
+.navbutton.active:hover {
+    background-color: #ffe66f;
+    color: black;
 }

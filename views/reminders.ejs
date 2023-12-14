@@ -2,124 +2,164 @@
 
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Reminders</title>
-    <link rel="stylesheet" href="/styles/reminders.css">
-</head>
-<body>
-
-<div id="reminders-app" class="pageContainer">
-    <div class="leftSection">
-        <div class="leftNav">
-            <form id="Homepage" action="/" method="GET">
-                <button class="navbutton" type="submit">
-                    Homepage
-                </button>
-            </form>
-            <form id="expenseTrackerForm" action="/expenseTracker" method="GET">
-                <button class="navbutton" type="submit">
-                    Expense Tracker
-                </button>
-            </form>
-            <form id="reminderSectionForm" action="/reminders" method="GET">
-                <button class="navbutton" type="submit">
-                    Reminder
-                </button>
-            </form>
-            <form id="aboutUsSectionForm" action="/aboutus" method="GET">
-                <button class="navbutton" type="submit">
-                    About Us
-                </button>
-            </form>
-            <!-- Logout Form -->
-            <form id="logoutForm" action="/logout" method="POST">
-                <button type="submit">Logout</button>
-            </form>
-        </div>
-    </div>
-    <div class="rightSection">
-        <h1>Your Reminders</h1>
-        <div id="reminderList">
-            <ul id="remindersList">
-                <% for (const reminder of reminders) { %>
-                    <li>
-                        <span><strong>Name:</strong> <%= reminder.name %></span>
-                        <span><strong>Amount:</strong> <%= reminder.amount %></span>
-                        <span><strong>Date:</strong> <%= reminder.date %></span>
-                        <span><strong>Service:</strong> <%= reminder.service %></span>
-                    </li>
-                <% } %>
-            </ul>
-        </div>
-        <div id="reminderAdd">
-            <div>
-                <form id="addReminderForm" method="post" action="/add-reminder">
-                    <label for="amount">Amount:</label>
-                    <input type="number" name="amount" id="amount" required>
-                
-                    <label for="date">Date:</label>
-                    <input type="date" name="date" id="date" required>
-
-                    <label for="name">Name:</label>
-                    <input type="text" name="name" id="name" required>
-                
-                    <label for="service">Service:</label>
-                    <input type="text" name="service" id="service" required>
-
-                
-                    <button type="submit">Add Reminder</button>
-                </form> 
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Your Reminders</title>
+        <link rel="stylesheet" href="/styles/reminders.css" />
+    </head>
+    <body>
+        <div id="reminders-app" class="pageContainer">
+            <div class="leftSection">
+                <div class="leftNav">
+                    <form id="Homepage" action="/" method="GET">
+                        <button class="navbutton" type="submit">
+                            Homepage
+                        </button>
+                    </form>
+                    <form
+                        id="expenseTrackerForm"
+                        action="/expenseTracker"
+                        method="GET">
+                        <button class="navbutton" type="submit">
+                            Expense Tracker
+                        </button>
+                    </form>
+                    <form
+                        id="reminderSectionForm"
+                        action="/reminders"
+                        method="GET">
+                        <button class="navbutton" type="submit">
+                            Reminder
+                        </button>
+                    </form>
+                    <form
+                        id="aboutUsSectionForm"
+                        action="/aboutus"
+                        method="GET">
+                        <button class="navbutton" type="submit">
+                            About Us
+                        </button>
+                    </form>
+                    <!-- Logout Form -->
+                    <form id="logoutForm" action="/logout" method="POST">
+                        <button type="submit">Logout</button>
+                    </form>
+                </div>
             </div>
-            <button id="setupWeeklyReminder">Set Up Weekly Reminder</button>
+            <div class="rightSection">
+                <h1>Your Reminders</h1>
+                <div id="reminderList">
+                    <ul id="remindersList">
+                        <% for (const reminder of reminders) { %>
+                        <li>
+                            <span
+                                ><strong>Name:</strong> <%= reminder.name
+                                %></span
+                            >
+                            <span
+                                ><strong>Amount:</strong> <%= reminder.amount
+                                %></span
+                            >
+                            <span
+                                ><strong>Date:</strong> <%= reminder.date
+                                %></span
+                            >
+                            <span
+                                ><strong>Service:</strong> <%= reminder.service
+                                %></span
+                            >
+                        </li>
+                        <% } %>
+                    </ul>
+                </div>
+                <div id="reminderAdd">
+                    <div>
+                        <form
+                            id="addReminderForm"
+                            method="post"
+                            action="/add-reminder">
+                            <label for="amount">Amount:</label>
+                            <input
+                                type="number"
+                                name="amount"
+                                id="amount"
+                                required />
+
+                            <label for="date">Date:</label>
+                            <input type="date" name="date" id="date" required />
+
+                            <label for="name">Name:</label>
+                            <input type="text" name="name" id="name" required />
+
+                            <label for="service">Service:</label>
+                            <input
+                                type="text"
+                                name="service"
+                                id="service"
+                                required />
+
+                            <button type="submit">Add Reminder</button>
+                        </form>
+                    </div>
+                    <button id="setupWeeklyReminder">
+                        Set Up Weekly Reminder
+                    </button>
+                </div>
+            </div>
+
+            <!-- Button to set up a weekly email reminder -->
+
+            <!-- List to display existing reminders -->
         </div>
 
-    </div>
-
-    <!-- Button to set up a weekly email reminder -->
-
-
-
-    <!-- List to display existing reminders -->
-
-</div>
-
-
-
-
-<script>
-    function formatDate(timestamp) {
-        const date = new Date(timestamp.seconds * 1000); // Convert seconds to milliseconds
-        return date.toLocaleDateString(); // Adjust the formatting as needed
-    }
-</script>
-
-
-<script>
-    // Function to format the date
-
-    // Event listener for the "Set Up Weekly Reminder" button
-    const setupWeeklyReminderButton = document.getElementById('setupWeeklyReminder');
-    setupWeeklyReminderButton.addEventListener('click', async () => {
-        const response = await fetch('/set-weekly-reminder', {
-            method: 'POST',
-        });
-
-        if (response.ok) {
-            const result = await response.json();
-            const { success } = result;
-
-            if (success) {
-                alert('Weekly reminder set up successfully!');
-            } else {
-                alert('Failed to set up weekly reminder');
+        <script>
+            function formatDate(timestamp) {
+                const date = new Date(timestamp.seconds * 1000); // Convert seconds to milliseconds
+                return date.toLocaleDateString(); // Adjust the formatting as needed
             }
-        } else {
-            alert('Failed to set up weekly reminder');
-        }
-    });
-</script>
+        </script>
 
-</body>
+        <script>
+            // Function to format the date
+
+            // Event listener for the "Set Up Weekly Reminder" button
+            const setupWeeklyReminderButton = document.getElementById(
+                "setupWeeklyReminder"
+            );
+            setupWeeklyReminderButton.addEventListener("click", async () => {
+                const response = await fetch("/set-weekly-reminder", {
+                    method: "POST",
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    const { success } = result;
+
+                    if (success) {
+                        alert("Weekly reminder set up successfully!");
+                    } else {
+                        alert("Failed to set up weekly reminder");
+                    }
+                } else {
+                    alert("Failed to set up weekly reminder");
+                }
+            });
+        </script>
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                var currentPath = window.location.pathname;
+                currentPath = currentPath.slice(1);
+                var navButtons = document.querySelectorAll(".navbutton");
+                navButtons.forEach(function (button) {
+                    var formAction =
+                        button.parentElement.getAttribute("action");
+                    formAction = formAction.slice(1);
+                    if (currentPath === formAction) {
+                        button.classList.add("active");
+                    }
+                });
+            });
+        </script>
+    </body>
 </html>

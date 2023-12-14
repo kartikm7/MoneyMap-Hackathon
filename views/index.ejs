@@ -35,5 +35,20 @@
                     height="100%" />
             </div>
         </div>
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                var currentPath = window.location.pathname;
+                currentPath = currentPath.slice(1);
+                var navButtons = document.querySelectorAll(".navbutton");
+                navButtons.forEach(function (button) {
+                    var formAction =
+                        button.parentElement.getAttribute("action");
+                    formAction = formAction.slice(1);
+                    if (currentPath === formAction) {
+                        button.classList.add("active");
+                    }
+                });
+            });
+        </script>
     </body>
 </html>

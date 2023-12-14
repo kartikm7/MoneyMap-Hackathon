@@ -6,6 +6,7 @@ body {
     height: 100%;
     background-size: cover;
     overflow: hidden;
+    outline: none;
 }
 .pageContainer {
     display: flex;
@@ -51,4 +52,9 @@ h1 {
     cursor: pointer;
     font-size: 16px;
     margin: 20px;
+}
+.navbutton:hover {
+    background-color: #ffee98;
+    transform: scale(1.01);
+    transition: 0.2s ease-in;
 }
