@@ -27,3 +27,9 @@ companion.
 - incase you have windows, you can use WSL(Windows Subsystem for Linux) and install it there
 - install llama using the ollama run llama2 cli command
 - for further, more indepth instructions do check out the Ollama Docs ( https://github.com/jmorganca/ollama/ )
+
+## Working Screenshots:
+
+Ai Advice:
+![image](https://github.com/kartikm7/MoneyMap-Hackathon/assets/108652656/6ee5ed7a-f541-427d-9723-15a0ca0f7fac)
+
